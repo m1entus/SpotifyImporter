@@ -59,7 +59,7 @@
     } else {
         
         NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        sessionConfiguration.HTTPMaximumConnectionsPerHost = 6;
+        sessionConfiguration.HTTPMaximumConnectionsPerHost = 20;
         
         AFHTTPSessionManager *sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://itunes.apple.com"] sessionConfiguration:sessionConfiguration];
         sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",nil];
