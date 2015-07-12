@@ -1,0 +1,1 @@
+PODS_DJPROGRESSHUD_OSX_OTHER_LDFLAGS = -framework "QuartzCore"

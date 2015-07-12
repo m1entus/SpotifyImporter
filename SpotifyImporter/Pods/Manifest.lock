@@ -1,0 +1,33 @@
+PODS:
+  - AFNetworking (2.5.4):
+    - AFNetworking/NSURLConnection (= 2.5.4)
+    - AFNetworking/NSURLSession (= 2.5.4)
+    - AFNetworking/Reachability (= 2.5.4)
+    - AFNetworking/Security (= 2.5.4)
+    - AFNetworking/Serialization (= 2.5.4)
+    - AFNetworking/UIKit (= 2.5.4)
+  - AFNetworking/NSURLConnection (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.4)
+  - AFNetworking/Security (2.5.4)
+  - AFNetworking/Serialization (2.5.4)
+  - CHCSVParser (2.1.0)
+  - DJProgressHUD_OSX (0.0.1)
+
+DEPENDENCIES:
+  - AFNetworking
+  - CHCSVParser
+  - DJProgressHUD_OSX
+
+SPEC CHECKSUMS:
+  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
+  DJProgressHUD_OSX: a8de6d2da8750dbf671fcddc649a44a9cd2807c4
+
+COCOAPODS: 0.37.2

@@ -1,0 +1,7 @@
+platform :osx, "10.10"
+
+pod 'AFNetworking'
+pod 'CHCSVParser'
+pod 'DJProgressHUD_OSX'
+
+inhibit_all_warnings!
