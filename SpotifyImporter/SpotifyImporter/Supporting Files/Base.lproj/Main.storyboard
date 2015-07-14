@@ -650,7 +650,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Spotify Importer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -664,10 +664,10 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--Main Menu View Controller-->
+        <!--Spotify Importer-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="SIMainMenuViewController" sceneMemberID="viewController">
+                <viewController title="Spotify Importer" id="XfG-lQ-9wD" customClass="SIMainMenuViewController" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="612" height="381"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -682,6 +682,36 @@
                                     <action selector="importFromCSVButtonTapped:" target="XfG-lQ-9wD" id="Vcn-y7-BQs"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IYQ-o2-4Zf">
+                                <rect key="frame" x="209" y="217" width="194" height="32"/>
+                                <buttonCell key="cell" type="push" title="Import from Spotify URIs" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ezp-qd-l0T">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="importFromSpotifyURIsButtonTapped:" target="XfG-lQ-9wD" id="u1C-se-406"/>
+                                </connections>
+                            </button>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CYJ-Ud-Jlo">
+                                <rect key="frame" x="382" y="177" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RjZ-dP-60n">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="helpImportCSV:" target="XfG-lQ-9wD" id="YhY-fu-6mV"/>
+                                </connections>
+                            </button>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Ga-z3-pp9">
+                                <rect key="frame" x="407" y="221" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aXD-06-aHC">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="helpSpotifyURI:" target="XfG-lQ-9wD" id="7w8-Ds-3Z8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="Cqb-7r-bvi" secondAttribute="centerX" id="58S-qg-wlF"/>
@@ -690,11 +720,125 @@
                     </view>
                     <connections>
                         <segue destination="ptX-r5-CN8" kind="sheet" identifier="importCSV" id="L0s-0x-dyk"/>
+                        <segue destination="oCe-u7-jn5" kind="sheet" identifier="importURI" id="OOJ-XT-qg6"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="141" y="710.5"/>
+        </scene>
+        <!--SpotifyURI Importer View Controller-->
+        <scene sceneID="xMm-Hj-1yb">
+            <objects>
+                <viewController id="oCe-u7-jn5" customClass="SISpotifyURIImporterViewController" sceneMemberID="viewController">
+                    <view key="view" id="LII-th-O3d">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="460"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="33m-o7-ijd">
+                                <rect key="frame" x="20" y="59" width="500" height="343"/>
+                                <clipView key="contentView" id="tEt-dn-COw">
+                                    <rect key="frame" x="1" y="1" width="498" height="341"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="UEM-8D-8Es">
+                                            <rect key="frame" x="0.0" y="0.0" width="498" height="341"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="minSize" width="498" height="341"/>
+                                            <size key="maxSize" width="505" height="10000000"/>
+                                            <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="498" height="341"/>
+                                            <size key="maxSize" width="505" height="10000000"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="4vH-qR-T2T">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="ZCf-Dc-l4n">
+                                    <rect key="frame" x="483" y="1" width="16" height="341"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y99-fj-wjO">
+                                <rect key="frame" x="18" y="423" width="115" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="111" id="oHT-z0-WNB"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Spotify URIs:" id="Bnz-6d-i6t">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RY6-Ng-dFo">
+                                <rect key="frame" x="108" y="416" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GmT-UY-McE">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="helpButtonTapped:" target="oCe-u7-jn5" id="oUA-6X-sBc"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rol-nU-lGz">
+                                <rect key="frame" x="406" y="13" width="120" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="108" id="wgv-vZ-8m2"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Continue" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4X9-OL-FcL">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="continueButtonTapped:" target="oCe-u7-jn5" id="Py5-iY-gmy"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hPP-L3-e4O">
+                                <rect key="frame" x="14" y="13" width="108" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="96" id="QEB-Cm-79o"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aJZ-dP-SrC">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancelButtonTapped:" target="oCe-u7-jn5" id="V0m-TG-44m"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="33m-o7-ijd" secondAttribute="trailing" constant="20" symbolic="YES" id="5UL-dm-9bO"/>
+                            <constraint firstItem="rol-nU-lGz" firstAttribute="baseline" secondItem="hPP-L3-e4O" secondAttribute="baseline" id="8Pm-ei-9cW"/>
+                            <constraint firstItem="hPP-L3-e4O" firstAttribute="leading" secondItem="33m-o7-ijd" secondAttribute="leading" id="Gn4-RK-p38"/>
+                            <constraint firstItem="Y99-fj-wjO" firstAttribute="trailing" secondItem="RY6-Ng-dFo" secondAttribute="trailing" id="LCJ-4M-X0i"/>
+                            <constraint firstItem="Y99-fj-wjO" firstAttribute="leading" secondItem="LII-th-O3d" secondAttribute="leading" constant="20" symbolic="YES" id="PZj-LU-dfS"/>
+                            <constraint firstAttribute="bottom" secondItem="hPP-L3-e4O" secondAttribute="bottom" constant="20" symbolic="YES" id="ZHy-qW-9nK"/>
+                            <constraint firstItem="rol-nU-lGz" firstAttribute="trailing" secondItem="33m-o7-ijd" secondAttribute="trailing" id="ZdU-Fo-ERV"/>
+                            <constraint firstItem="33m-o7-ijd" firstAttribute="centerY" secondItem="LII-th-O3d" secondAttribute="centerY" id="jwH-zQ-gdM"/>
+                            <constraint firstItem="Y99-fj-wjO" firstAttribute="top" secondItem="LII-th-O3d" secondAttribute="top" constant="20" symbolic="YES" id="mCq-qH-HCS"/>
+                            <constraint firstItem="33m-o7-ijd" firstAttribute="leading" secondItem="Y99-fj-wjO" secondAttribute="leading" id="onY-Zk-NLG"/>
+                            <constraint firstItem="33m-o7-ijd" firstAttribute="top" secondItem="RY6-Ng-dFo" secondAttribute="bottom" constant="17" id="vot-qD-hED"/>
+                            <constraint firstItem="RY6-Ng-dFo" firstAttribute="top" secondItem="Y99-fj-wjO" secondAttribute="top" id="xcD-rq-LUR"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="UEM-8D-8Es" id="0HD-XU-NyE"/>
+                    </connections>
+                </viewController>
+                <customObject id="O87-ep-vPP" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="157" y="1200"/>
         </scene>
         <!--Importer View Controller-->
         <scene sceneID="Eso-np-VFc">
@@ -711,7 +855,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" emptySelection="NO" autosaveColumns="NO" headerView="52j-gw-Gz7" id="fdL-XH-Fna">
-                                            <rect key="frame" x="0.0" y="0.0" width="574" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="618" height="19"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -768,8 +912,8 @@
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="jQw-se-Plg">
-                                    <rect key="frame" x="1" y="117.82220637798309" width="238" height="16"/>
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="jQw-se-Plg">
+                                    <rect key="frame" x="1" y="268" width="618" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="87S-so-KZ3">
@@ -777,7 +921,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="52j-gw-Gz7">
-                                    <rect key="frame" x="0.0" y="0.0" width="238" height="17"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="618" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
@@ -873,6 +1017,9 @@ Gw
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <segue destination="c1v-ui-hcl" kind="popover" popoverAnchorView="PD5-sb-a8p" popoverBehavior="t" preferredEdge="maxY" id="Tso-pm-B0t"/>
+                                </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="agO-vi-gbV">
                                 <rect key="frame" x="18" y="460" width="75" height="17"/>
@@ -902,14 +1049,14 @@ Gw
                                 <rect key="frame" x="20" y="382" width="622" height="68"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="justified" id="eUm-wu-ATi">
                                     <font key="font" metaFont="system"/>
-                                    <string key="title">Apple Music doesn't like it when we're adding a lot of songs in a small amount of time. If we do so, the API responds to all further request with 403 Too many requests. After this, you're blocked from the API for an undetermined amount of time. We're currently trying to avoid this by waiting after each request. A delay of 30 seconds seems fine to import large libraries into Apple Music.</string>
+                                    <string key="title">Apple Music doesn't like it when we're adding a lot of songs in a small amount of time. If we do so, the API responds to all further request with 403 Too many requests. After this, you're blocked from the API for an undetermined amount of time. We're currently trying to avoid this by waiting after each request. A delay of 3 seconds seems fine to import large libraries into Apple Music.</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SrG-uc-AA4">
                                 <rect key="frame" x="110" y="354" width="175" height="22"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="30" placeholderString="Enter Delay" drawsBackground="YES" id="5AO-pq-ax5">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="3" placeholderString="Enter Delay" drawsBackground="YES" id="5AO-pq-ax5">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -942,6 +1089,58 @@ Gw
                 <customObject id="57U-d2-kdM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="869" y="695"/>
+        </scene>
+        <!--Help Guid View Controller-->
+        <scene sceneID="FRB-8g-6Kv">
+            <objects>
+                <viewController id="c1v-ui-hcl" customClass="SIHelpGuidViewController" sceneMemberID="viewController">
+                    <view key="view" id="Eef-Cj-n4q">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VeE-eT-FWp">
+                                <rect key="frame" x="20" y="20" width="560" height="496"/>
+                                <clipView key="contentView" id="HHx-q4-atx">
+                                    <rect key="frame" x="1" y="1" width="558" height="494"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView editable="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="8Ed-sh-gmc">
+                                            <rect key="frame" x="0.0" y="0.0" width="563" height="494"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="minSize" width="558" height="494"/>
+                                            <size key="maxSize" width="565" height="10000000"/>
+                                            <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="558" height="494"/>
+                                            <size key="maxSize" width="565" height="10000000"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="F9y-43-apN">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="PiJ-4s-IYk">
+                                    <rect key="frame" x="543" y="1" width="16" height="494"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="VeE-eT-FWp" firstAttribute="top" secondItem="Eef-Cj-n4q" secondAttribute="top" constant="20" symbolic="YES" id="WoF-OD-hzn"/>
+                            <constraint firstAttribute="bottom" secondItem="VeE-eT-FWp" secondAttribute="bottom" constant="20" symbolic="YES" id="bTI-Y0-Jhb"/>
+                            <constraint firstItem="VeE-eT-FWp" firstAttribute="leading" secondItem="Eef-Cj-n4q" secondAttribute="leading" constant="20" symbolic="YES" id="ch1-1A-XM7"/>
+                            <constraint firstAttribute="trailing" secondItem="VeE-eT-FWp" secondAttribute="trailing" constant="20" symbolic="YES" id="wPI-e6-jqg"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="8Ed-sh-gmc" id="Td5-DU-L93"/>
+                    </connections>
+                </viewController>
+                <customObject id="QvT-N4-UE8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1543" y="497"/>
         </scene>
     </scenes>
 </document>

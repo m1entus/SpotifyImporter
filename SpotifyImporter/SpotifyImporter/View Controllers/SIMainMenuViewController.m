@@ -13,6 +13,7 @@
 #import "SISong.h"
 #import "NSString+Score.h"
 #import "SIImporterViewController.h"
+#import "SISpotifyURIImporterViewController.h"
 
 @interface SIMainMenuViewController ()
 @property (nonatomic, strong) NSArray *songs;
@@ -20,6 +21,9 @@
 
 @implementation SIMainMenuViewController
 
+- (IBAction)importFromSpotifyURIsButtonTapped:(id)sender {
+    [self performSegueWithIdentifier:@"importURI" sender:self];
+}
 
 - (IBAction)importFromCSVButtonTapped:(id)sender {
     
@@ -49,7 +53,13 @@
         }
     }];
 }
+- (IBAction)helpImportCSV:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString: @"https://rawgit.com/watsonbox/exportify/master/exportify.html"]];
+}
 
+- (IBAction)helpSpotifyURI:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString: @"https://lupin.rocks/entry/seamlessly-import-your-spotify-playlists-into-itunes#uris"]];
+}
 
 - (void)findMusicUsingSongsArray:(NSArray *)songs error:(NSError *)error {
     
@@ -71,7 +81,7 @@
         
         dispatch_group_t sessionGroup = dispatch_group_create();
         
-        [DJProgressHUD showProgress:0.0 withStatus:@"Searching songs..." FromView:self.view];
+//        [DJProgressHUD showProgress:0.0 withStatus:@"Searching songs..." FromView:self.view];
         
         __block NSInteger progress = 0;
         NSInteger numberOfSongs = songs.count;
@@ -137,6 +147,15 @@
     if ([segue.identifier isEqualToString:@"importCSV"]) {
         SIImporterViewController *importerViewController = segue.destinationController;
         importerViewController.songs = self.songs;
+    } else if ([segue.identifier isEqualToString:@"importURI"]) {
+        SISpotifyURIImporterViewController *spotifyImporter = segue.destinationController;
+        
+        __weak typeof(self) weakSelf = self;
+        spotifyImporter.compeltionHandler = ^(NSArray *songs, BOOL cancelled) {
+            if (!cancelled) {
+                [weakSelf findMusicUsingSongsArray:songs error:nil];
+            }
+        };
     }
 }
 
