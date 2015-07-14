@@ -912,7 +912,7 @@ Gw
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="jQw-se-Plg">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="jQw-se-Plg">
                                     <rect key="frame" x="1" y="268" width="618" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>

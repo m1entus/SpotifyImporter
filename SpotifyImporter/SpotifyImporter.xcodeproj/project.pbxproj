@@ -229,6 +229,7 @@
 				64113E551B52B48A00C97F9D /* Frameworks */,
 				64113E561B52B48A00C97F9D /* Resources */,
 				C6FE853BE82E5586968EA1B4 /* Copy Pods Resources */,
+				64E307B71B558280003DEFBB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -314,6 +315,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		64E307B71B558280003DEFBB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -ex\n\n[ \"$ACTION\" = build ] || exit 0\n[ \"$BUILD_VARIANTS\" = \"normal\" ] || exit 0\n[ \"$CONFIGURATION\" = \"Release\" ] || exit 0\n\ndir=\"$TEMP_FILES_DIR/disk\"\ndmg=\"$HOME/Desktop/$PROJECT_NAME.dmg\"\n\nrm -rf \"$dir\"\nmkdir \"$dir\"\ncp -R \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.app\" \"$dir\"\nln -s \"/Applications\" \"$dir/Applications\"\nrm -f \"$dmg\"\nhdiutil create -srcfolder \"$dir\" -volname \"$PROJECT_NAME\" \"$dmg\"\nrm -rf \"$dir\"";
+		};
 		BF59C9B163940F9387162FD1 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
