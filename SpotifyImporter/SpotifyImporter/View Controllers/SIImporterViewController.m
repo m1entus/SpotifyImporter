@@ -16,6 +16,10 @@
 
 NSString *const SIAppleRequestBodyString = @"61 6a 43 41 00 00 00 45 6d 73 74 63 00 00 00 04 55 94 17 a3 6d 6c 69 64 00 00 00 04 00 00 00 00 6d 75 73 72 00 00 00 04 00 00 00 81 6d 69 6b 64 00 00 00 01 02 6d 69 64 61 00 00 00 10 61 65 41 69 00 00 00 08 00 00 00 00 11 8c d9 2c 00";
 
+NSString *const SIDsidUserDefaultsKey = @"SIDsidUserDefaultsKey";
+NSString *const SIGsidUserDefaultsKey = @"SIGsidUserDefaultsKey";
+NSString *const SICookieUserDefaultsKey = @"SICookieUserDefaultsKey";
+
 @interface SIImporterViewController () <NSTableViewDelegate, NSTableViewDataSource>
 @property (weak) IBOutlet NSTextField *cookieTextField;
 @property (weak) IBOutlet NSTextField *dsidTextField;
@@ -32,9 +36,9 @@ NSString *const SIAppleRequestBodyString = @"61 6a 43 41 00 00 00 45 6d 73 74 63
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.maxConcurrentOperationCount = 1;
     
-    self.dsidTextField.stringValue = @"";
-    self.guidTextField.stringValue = @"";
-    self.cookieTextField.stringValue = @"";
+    self.dsidTextField.stringValue = [[NSUserDefaults standardUserDefaults] objectForKey:SIDsidUserDefaultsKey] ?: @"";
+    self.guidTextField.stringValue = [[NSUserDefaults standardUserDefaults] objectForKey:SIGsidUserDefaultsKey] ?: @"";
+    self.cookieTextField.stringValue = [[NSUserDefaults standardUserDefaults] objectForKey:SICookieUserDefaultsKey] ?: @"";
     
     self.songs = [self.songs sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"matchingScore" ascending:NO selector:@selector(compare:)]]];
     
@@ -71,7 +75,16 @@ NSString *const SIAppleRequestBodyString = @"61 6a 43 41 00 00 00 45 6d 73 74 63
     [self importSongs:songsToImport];
 }
 
+- (void)saveUserIdsToUserDefaults {
+    [[NSUserDefaults standardUserDefaults] setObject:self.dsidTextField.stringValue forKey:SIDsidUserDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.guidTextField.stringValue forKey:SIGsidUserDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] setObject:self.cookieTextField.stringValue forKey:SICookieUserDefaultsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)importSongs:(NSArray *)songs {
+    
+    [self saveUserIdsToUserDefaults];
     
     if (songs.count <= 0) {
         return;
@@ -91,8 +104,23 @@ NSString *const SIAppleRequestBodyString = @"61 6a 43 41 00 00 00 45 6d 73 74 63
     }];
 }
 
+- (void)showSuccessAlert {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert addButtonWithTitle:@"OK"];
+    [alert setMessageText:@"Success"];
+    [alert setInformativeText:@"Please restart iTunes and you will see your songs."];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert runModal];
+}
+
 - (void)continueImportingSongs:(NSArray *)songs {
     [self.operationQueue cancelAllOperations];
+    
+    if (songs.count <= 0) {
+        [DJProgressHUD dismiss];
+        [self.view.window.sheetParent endSheet:self.view.window returnCode:NSModalResponseOK];
+        [self showSuccessAlert];
+    }
     
     AFHTTPRequestOperationManager *operationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://ld-3.itunes.apple.com"]];
     operationManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/x-dmap-tagged",nil];
@@ -111,6 +139,7 @@ NSString *const SIAppleRequestBodyString = @"61 6a 43 41 00 00 00 45 6d 73 74 63
             if (currentProgress >= finalProgress) {
                 [DJProgressHUD dismiss];
                 [weakSelf.view.window.sheetParent endSheet:weakSelf.view.window returnCode:NSModalResponseOK];
+                [weakSelf showSuccessAlert];
             }
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
